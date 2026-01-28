@@ -59,7 +59,7 @@ test('TC_01: Create New Product ', async ({ page }) => {
 
 
 
-    // Create New tax type
+    //Create New tax type
 
     const taxTypePage = new TaxTypePage(page);
     await taxTypePage.CreateTaxType(taxTypedata);
@@ -138,6 +138,7 @@ test('TC_01: Create New Product ', async ({ page }) => {
     await page.waitForTimeout(5000);
     await expect(page.locator(`text=/^${addonsData.addonName}$/`)).toBeVisible();
     await page.waitForTimeout(6000);
+    //
 
     //create product
     const productPage = new ProductPage(page);
