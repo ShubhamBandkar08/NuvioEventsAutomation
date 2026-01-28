@@ -20,6 +20,11 @@ import { ProductPage } from '../pages/Product.page.js';
 import { productData } from '../data/product.data.js';
 import { SchedulerPage } from '../pages/Scheduler.page.js';
 import { schedularData } from '../data/scheduler.data.js';
+import { designationData } from '../data/designation.data.js';
+import { DesignationPage } from '../pages/Designation.page.js';
+import { employementTypeData } from '../data/employementType.data.js';
+import { EmployementTypePage } from '../pages/EmployementType.page.js';
+
 
 test.beforeEach(async ({ page }) => {
     // Any setup steps can be added here
@@ -168,9 +173,6 @@ test("TC_02 : Schedule new product", async ({ page }) => {
 
 
 
-
-
-
 test("Create product using existing data", async ({ page }) => {
     test.setTimeout(1200000);
 
@@ -287,3 +289,32 @@ test("Create product using existing data", async ({ page }) => {
 
 
 });
+
+
+
+test("Check Masters", async ({ page }) => {
+    test.setTimeout(1200000);
+    //  Designation
+
+    const designationPage = new DesignationPage(page);
+    await designationPage.createDesignation(designationData);
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForTimeout(5000);
+    await expect(page.locator(`text=/^${designationData.designationName}$/`)).toBeVisible();
+    await page.waitForTimeout(6000);
+
+
+
+    //Employement Type
+    const employementTypePage = new EmployementTypePage(page);
+    await employementTypePage.createEmployementType(employementTypeData);
+    await page.waitForTimeout(2000);
+    await page.reload();
+    await page.waitForTimeout(5000);
+    await expect(page.locator(`text=/^${employementTypeData.employementTypeName}$/`)).toBeVisible();
+    await page.waitForTimeout(6000);
+
+
+
+})
