@@ -2,6 +2,7 @@ import { BusinessUnitPage } from "./businessUnit.page";
 import { businessUnitData } from "../data/businessUnit.data";
 import { ticketClassData } from "../data/ticketClass.data";
 import { ticketTypeData } from "../data/ticketType.data";
+import { priceCardData } from "../data/priceCard.data";
 
 export class priceCardPage {
     constructor(page) {
@@ -18,6 +19,8 @@ export class priceCardPage {
         this.selectTicketType = this.page.getByRole('button', { name: ticketTypeData.ticketTypeName, exact: true });
         this.EnterPriceField = this.page.getByRole('textbox', { name: '0.00' });
         this.ticketItemsLink = this.page.getByRole('button', { name: 'Ticketing' });
+        this.priceCardColor = this.page.getByRole('button', { name: '#3b82f6' });
+        this.colorCodeField = this.page.locator('#radix-_r_3q_').getByRole('textbox');
     }
 
     async openpriceCardPage() {
@@ -45,18 +48,40 @@ export class priceCardPage {
         await this.page.waitForTimeout(2000);
         await this.businessUnitOption.click();
         await this.page.waitForTimeout(2000);
+
+        //Enter price card name 
         if (data.priceCardName) await this.priceCardNameField.fill(data.priceCardName);
         await this.page.waitForTimeout(2000);
+
+        //Enter price card color
+        await this.priceCardColor.click();
+        await this.page.waitForTimeout(2000);
+        await this.colorCodeField.click();
+        await this.page.waitForTimeout(2000);
+        await this.colorCodeField.fill(priceCardData.PriceCardColor);
+        await this.page.waitForTimeout(2000);
+
+        //Enter price card description
         if (data.priceCardDescription) await this.priceCardDescriptionField.fill(data.priceCardDescription);
         await this.page.waitForTimeout(2000);
+
+        //Select ticket class
         await this.selectTicketClass.click();
         await this.page.waitForTimeout(2000);
         await this.clickOnTicketClassOption.click();
         await this.page.waitForTimeout(2000);
+
+        //Select ticket type
         await this.selectTicketType.click();
         await this.page.waitForTimeout(2000);
+        await this.clickOnTicketTypeOption.click();
+        await this.page.waitForTimeout(2000);
+
+        //Enter price card price
         if (data.priceCardPrice) await this.EnterPriceField.fill(data.priceCardPrice);
         await this.page.waitForTimeout(2000);
+
+        //Click on create button
         await this.page.getByRole('button', { name: 'Create' }).click();
 
 
