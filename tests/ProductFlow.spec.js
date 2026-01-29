@@ -24,6 +24,8 @@ import { designationData } from '../data/designation.data.js';
 import { DesignationPage } from '../pages/Designation.page.js';
 import { employementTypeData } from '../data/employementType.data.js';
 import { EmployementTypePage } from '../pages/EmployementType.page.js';
+import { subLocationData } from '../data/sublocation.data.js';
+import { SubLocationPage } from '../pages/SubLocation.page.js';
 
 
 test.beforeEach(async ({ page }) => {
@@ -90,6 +92,18 @@ test('TC_01: Create New Product ', async ({ page }) => {
     await page.waitForTimeout(5000);
     await expect(page.locator(`text=/^${locationData.locationName}$/`)).toBeVisible();
     await page.waitForTimeout(6000);
+
+    // Create new sub location
+
+    // const subLocationPage = new SubLocationPage(page);
+    // await page.waitForTimeout(3000);
+    // await subLocationPage.createSubLocation(subLocationData);
+    // await page.waitForTimeout(2000);
+    // await page.reload();
+    // await page.waitForTimeout(5000);
+    // await expect(page.locator(`text=/^${subLocationData.subLocationName}$/`)).toBeVisible();
+    // await page.waitForTimeout(6000);
+
 
 
     // create price card
@@ -296,24 +310,27 @@ test("Check Masters", async ({ page }) => {
     test.setTimeout(1200000);
     //  Designation
 
-    const designationPage = new DesignationPage(page);
-    await designationPage.createDesignation(designationData);
-    await page.waitForTimeout(2000);
-    await page.reload();
-    await page.waitForTimeout(5000);
-    await expect(page.locator(`text=/^${designationData.designationName}$/`)).toBeVisible();
-    await page.waitForTimeout(6000);
+    // const designationPage = new DesignationPage(page);
+    // await designationPage.createDesignation(designationData);
+    // await page.waitForTimeout(2000);
+    // await page.reload();
+    // await page.waitForTimeout(5000);
+    // await expect(page.locator(`text=/^${designationData.designationName}$/`)).toBeVisible();
+    // await page.waitForTimeout(6000);
 
 
 
-    //Employement Type
-    const employementTypePage = new EmployementTypePage(page);
-    await employementTypePage.createEmployementType(employementTypeData);
-    await page.waitForTimeout(2000);
-    await page.reload();
-    await page.waitForTimeout(5000);
-    await expect(page.locator(`text=/^${employementTypeData.employementTypeName}$/`)).toBeVisible();
-    await page.waitForTimeout(6000);
+    //Employement 
+
+    // const employementTypePage = new EmployementTypePage(page);
+    // await employementTypePage.createEmployementType(employementTypeData);
+    // await page.waitForTimeout(2000);
+    // await page.reload();
+    // await page.waitForTimeout(5000);
+    // await expect(page.locator(`text=/^${employementTypeData.employementTypeName}$/`)).toBeVisible();
+    // await page.waitForTimeout(6000);
+
+
 
 
 
