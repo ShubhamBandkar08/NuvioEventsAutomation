@@ -26,7 +26,8 @@ import { employementTypeData } from '../data/employementType.data.js';
 import { EmployementTypePage } from '../pages/EmployementType.page.js';
 import { subLocationData } from '../data/sublocation.data.js';
 import { SubLocationPage } from '../pages/SubLocation.page.js';
-
+import { expertiseData } from '../data/expertise.data.js';
+import { ExpertisePage } from '../pages/Expertise.page.js';
 
 test.beforeEach(async ({ page }) => {
     // Any setup steps can be added here
@@ -329,6 +330,19 @@ test("Check Masters", async ({ page }) => {
     // await page.waitForTimeout(5000);
     // await expect(page.locator(`text=/^${employementTypeData.employementTypeName}$/`)).toBeVisible();
     // await page.waitForTimeout(6000);
+
+    // New Expertise
+
+    // const expertisePage = new ExpertisePage(page);
+    // await expertisePage.addNewExpertise(expertiseData);
+    // await page.waitForTimeout(2000);
+    // await page.reload();
+    // await page.waitForTimeout(5000);
+    // await expect(page.locator(`text=/^${expertiseData.expertiseName}$/`)).toBeVisible();
+    // await page.waitForTimeout(6000);
+
+
+    //Create New image set 
 
 
 
