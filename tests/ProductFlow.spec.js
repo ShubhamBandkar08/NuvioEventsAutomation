@@ -28,6 +28,16 @@ import { subLocationData } from '../data/sublocation.data.js';
 import { SubLocationPage } from '../pages/SubLocation.page.js';
 import { expertiseData } from '../data/expertise.data.js';
 import { ExpertisePage } from '../pages/Expertise.page.js';
+import { salesChannelData } from '../data/salesChannel.data.js';
+import { SalesChannelPage } from '../pages/SalesChannel.page.js';
+
+
+
+
+
+
+
+
 
 test.beforeEach(async ({ page }) => {
     // Any setup steps can be added here
@@ -342,7 +352,16 @@ test("Check Masters", async ({ page }) => {
     // await page.waitForTimeout(6000);
 
 
-    //Create New image set 
+    //Create New sales channel
+
+    // const salesChannelPage = new SalesChannelPage(page);
+    // await salesChannelPage.addNewSalesChannel(salesChannelData);
+    // await page.waitForTimeout(2000);
+    // await page.reload();
+    // await page.waitForTimeout(5000);
+    // await expect(page.locator(`text=/^${salesChannelData.salesChannelName}$/`)).toBeVisible();
+    // await page.waitForTimeout(6000);
+
 
 
 
