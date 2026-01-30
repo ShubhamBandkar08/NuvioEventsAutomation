@@ -16,6 +16,6 @@ export const schedularData = {
         "Sunday"
     ],
     StartDay: "1",
-    EndDay: "4",
+    EndDay: "1",
     MonthYear: "April 2026"
 }
