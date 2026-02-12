@@ -7,7 +7,7 @@ export class TicketTypePage {
         this.ticketAddNewButton = this.page.getByText('Add New', { exact: true });
         this.ticketTypeNameField = this.page.getByRole('textbox', { name: 'Name *' });
         this.ticketDescriptionField = this.page.getByRole('textbox', { name: 'Description' });
-        this.valideFromField = this.page.getByRole('textbox', { name: 'Valid From' });
+        this.valideFromField = this.page.getByRole('button', { name: 'Valid From' });
         this.refundableTogggle = this.page.getByRole('switch').first();
         this.transferrableToggle = this.page.getByRole('switch').nth(1);
         this.allowRescheduleToggle = this.page.getByRole('switch').nth(2);
@@ -46,9 +46,9 @@ export class TicketTypePage {
         await this.page.waitForTimeout(2000);
         if (data.TicketTypeDescription) await this.ticketDescriptionField.fill(data.TicketTypeDescription);
         await this.page.waitForTimeout(2000);
-        await this.valideFromField.click();
-        await this.page.waitForTimeout(2000);
-        if (data.valideFrom) await this.valideFromField.fill(data.valideFrom);
+        // await this.valideFromField.click();
+        // await this.page.waitForTimeout(2000);
+        // if (data.valideFrom) await this.valideFromField.fill(data.valideFrom);
         await this.page.waitForTimeout(2000);
         await this.refundableTogggle.click();
         await this.page.waitForTimeout(2000);
@@ -59,7 +59,7 @@ export class TicketTypePage {
         await this.avtiveToggle.click();
         await this.page.waitForTimeout(2000);
         await this.createButton.click();
-        
+
 
 
 

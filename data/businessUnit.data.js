@@ -1,5 +1,5 @@
 import { taxTypedata } from './taxType.data.js';
-
+import { ticketClassData } from './ticketClass.data.js';
 export const businessUnitData = {
     name: 'Dubai Aquarium & Underwater Zoo',
     code: 'DAUZ',
@@ -8,5 +8,8 @@ export const businessUnitData = {
     city: 'dubai',
     timeZone: 'dubai',
     taxType: taxTypedata.taxTypeName,
-    cumulativeCapacity: '100'
-}
+    cumulativeCapacity: '100',
+    role: 'POS User',
+    registrationNumber: 'REG-BU-056789',
+    ticketClass: ticketClassData.ticketClassName,
+}   

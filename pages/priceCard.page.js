@@ -3,6 +3,7 @@ import { businessUnitData } from "../data/businessUnit.data";
 import { ticketClassData } from "../data/ticketClass.data";
 import { ticketTypeData } from "../data/ticketType.data";
 import { priceCardData } from "../data/priceCard.data";
+import { execArgv } from "node:process";
 
 export class priceCardPage {
     constructor(page) {
@@ -10,17 +11,25 @@ export class priceCardPage {
         this.priceCardLink = this.page.getByRole('link', { name: 'Price Cards' });
         this.priceCadSearchField = this.page.getByRole('textbox', { name: 'Search Price Cards' });
         this.priceAddNewButton = this.page.getByText('Add New', { exact: true });
-        this.priceCardBusinessUnitDropdown = this.page.getByRole('combobox', { name: 'Business Unit *' });
-        this.businessUnitOption = this.page.getByLabel(businessUnitData.name).getByText(businessUnitData.name, { exact: true });
+        this.priceCardBusinessUnitDropdown = this.page.getByRole('textbox', { name: 'Select business unit' });
+        this.businessUnitOption = this.page.getByRole('option', { name: `${businessUnitData.name}` });
         this.priceCardNameField = this.page.getByRole('textbox', { name: 'Name *' });
         this.priceCardDescriptionField = this.page.getByRole('textbox', { name: 'Description' });
-        this.selectTicketClass = this.page.getByRole('button', { name: ticketClassData.ticketClassName });
-        this.clickOnTicketClassOption = this.page.locator('span:has-text("' + ticketClassData.ticketClassName + '")');
-        this.selectTicketType = this.page.getByRole('button', { name: ticketTypeData.ticketTypeName, exact: true });
+        this.selectTicketClass = this.page.getByRole('button', { name: `${ticketClassData.ticketClassName}` });
+
+        this.clickOnTicketClassOption = this.page.getByRole('option', { name: `${ticketClassData.ticketClassName}` });
+        this.selectTicketType = this.page.getByRole('button', { name: `${ticketClassData.ticketClassName} 0 types` });
+        //    this.clickOnTicketTypeOption = this.page.getByRole('button', { name: `${ticketTypeData.ticketTypeName}` } exact: true);
+        this.clickOnTicketTypeOption = this.page.getByRole('button', {
+            name: ticketTypeData.ticketTypeName,
+            exact: true
+        });
+
+
         this.EnterPriceField = this.page.getByRole('textbox', { name: '0.00' });
         this.ticketItemsLink = this.page.getByRole('button', { name: 'Ticketing' });
         this.priceCardColor = this.page.getByRole('button', { name: '#3b82f6' });
-        this.colorCodeField = this.page.locator('#radix-_r_3q_').getByRole('textbox');
+        this.colorCodeField = this.page.locator("input[value='#3b82f6']");
     }
 
     async openpriceCardPage() {
@@ -55,7 +64,7 @@ export class priceCardPage {
 
         //Enter price card color
         await this.priceCardColor.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(4000);
         await this.colorCodeField.click();
         await this.page.waitForTimeout(2000);
         await this.colorCodeField.fill(priceCardData.PriceCardColor);
@@ -67,13 +76,13 @@ export class priceCardPage {
 
         //Select ticket class
         await this.selectTicketClass.click();
-        await this.page.waitForTimeout(2000);
-        await this.clickOnTicketClassOption.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(4000);
+        // await this.clickOnTicketClassOption.click();
+        // await this.page.waitForTimeout(4000);
 
         //Select ticket type
         await this.selectTicketType.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(4000);
         await this.clickOnTicketTypeOption.click();
         await this.page.waitForTimeout(2000);
 

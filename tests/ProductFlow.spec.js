@@ -127,13 +127,13 @@ test('TC_01: Create New Product ', async ({ page }) => {
     await expect(page.locator(`text=/^${priceCardData.priceCardName}$/`)).toBeVisible();
     await page.waitForTimeout(6000);
 
-    //Create time slot 
+    // Create time slot 
 
     const timeSlotPage = new TimeSlotPage(page);
     await timeSlotPage.opentimeSlotPage();
     await page.waitForTimeout(3000);
 
-    // Search by business unit and check existence
+    //  Search by business unit and check existence
     await timeSlotPage.searchByBusinessUnit(timeSlotData.businessUnit);
     await page.waitForTimeout(2000);
     const exists = await timeSlotPage.isTimeSlotPresentInTable(timeSlotData);
@@ -159,7 +159,7 @@ test('TC_01: Create New Product ', async ({ page }) => {
     }
 
 
-    // //create addon
+    //create addon
     const addonsPage = new AddonsPage(page);
     await addonsPage.createAddon(addonsData);
 
@@ -168,7 +168,7 @@ test('TC_01: Create New Product ', async ({ page }) => {
     await page.waitForTimeout(5000);
     await expect(page.locator(`text=/^${addonsData.addonName}$/`)).toBeVisible();
     await page.waitForTimeout(6000);
-    //
+
 
     //create product
     const productPage = new ProductPage(page);
@@ -176,6 +176,8 @@ test('TC_01: Create New Product ', async ({ page }) => {
     await page.waitForTimeout(2000);
     await page.reload();
     await page.waitForTimeout(5000);
+    await productPage.searchProduct(productData.productName);
+    await page.waitForTimeout(2000);
     await expect(page.locator(`text=/^${productData.productName}$/`)).toBeVisible();
     await page.waitForTimeout(6000);
 

@@ -12,22 +12,23 @@ export class LocationPage {
         this.locationSearchField = this.page.getByRole('textbox', { name: 'Search Locations' });
         this.locationNameField = this.page.getByRole('textbox', { name: 'Name *' });
         this.loactionCodeField = this.page.getByRole('textbox', { name: 'Code *' });
-        this.businessUnitDropdown = this.page.getByRole('combobox').filter({ hasText: 'Select a business unit' });
+        this.businessUnitDropdown = this.page.getByRole('textbox', { name: 'Select a business unit' });
+        this.clickOnBussinesUnitOption = this.page.getByRole('option', { name: `${businessUnitData.name}` });
         this.activetoggle = this.page.getByRole('switch');
         this.locationDescriptionField = this.page.getByRole('textbox', { name: 'Description' });
         this.addressLineOneField = this.page.getByRole('textbox', { name: 'Address Line 1' });
         //selsect location country and city locators
-        this.locationCountrydropdown = this.page.getByRole('combobox').filter({ hasText: 'Select a country' });
+        this.locationCountrydropdown = this.page.getByRole('textbox', { name: 'Select a country' });
         this.locationCountrySearchbox = this.page.getByPlaceholder('Search country...');
-        this.locationcitydropdown = this.page.getByRole('combobox').filter({ hasText: 'Select a city' });
+        this.locationcitydropdown = this.page.getByRole('textbox', { name: 'Select a city' });
         this.locationcitySearchbox = this.page.getByPlaceholder('Search city...');
 
         // Select time zone locators modi needed
-        this.locationtimezonedropdown = this.page.getByRole('combobox').filter({ hasText: 'Select a timezone' });
+        this.locationtimezonedropdown = this.page.getByRole('textbox', { name: 'Select a timezone' });
         this.locationtimezoneSearchbox = this.page.getByPlaceholder('Search timezone...');
 
         // primary phone number locators
-        this.primaryPhoneNumberDropdown = this.page.getByRole('combobox').filter({ hasText: 'CA (+1)' });
+        this.primaryPhoneNumberDropdown = this.page.getByRole('combobox');
         this.primaryPhoneNumberSearchbox = this.page.getByPlaceholder('Search country code...');
         this.primaryPhoneNumberField = this.page.getByRole('textbox', { name: 'Primary Phone' });
 
@@ -41,22 +42,18 @@ export class LocationPage {
 
         //click on create button  locators
         this.clickOnCreateButton = this.page.getByRole('button', { name: 'Create' });
- 
+
         //location capacity type and value locators 
 
         this.flexibleRadioButton = this.page.getByRole('radio', { name: 'Flexible' });
         this.cumulativeCapacityField = this.page.getByRole('textbox', { name: 'Cumulative Capacity *' });
         this.addClassButton = this.page.getByRole('button', { name: 'Add Class' });
 
-
-
-
-
     }
 
 
     async openlocationPage() {
-     //   await this.entityManagementButton.click();
+        // await this.entityManagementButton.click();
         await this.locationLink.waitFor({ state: 'visible', timeout: 5000 });
         await this.locationLink.scrollIntoViewIfNeeded();
         await this.locationLink.click();
@@ -90,10 +87,15 @@ export class LocationPage {
         await this.page.waitForTimeout(2000);
         if (data.businessUnitNameInLocation) await this.businessUnitDropdown.click();
         await this.page.waitForTimeout(2000);
+        // if (data.businessUnitNameInLocation) {
+        //     const businessUnitOption = this.page.getByLabel(data.businessUnitNameInLocation).getByText(data.businessUnitNameInLocation, { exact: true });
+        //     await businessUnitOption.click();
+        // }
+
         if (data.businessUnitNameInLocation) {
-            const businessUnitOption = this.page.getByLabel(data.businessUnitNameInLocation).getByText(data.businessUnitNameInLocation, { exact: true });
-            await businessUnitOption.click();
+            await this.clickOnBussinesUnitOption.click();
         }
+
         await this.page.waitForTimeout(2000);
         await this.activetoggle.click();
 
@@ -125,7 +127,7 @@ export class LocationPage {
         await this.page.waitForTimeout(2000);
         await this.locationtimezoneSearchbox.fill(data.locationTimeZone);
         await this.page.waitForTimeout(2000);
-        await this.page.keyboard.press('Enter');    
+        await this.page.keyboard.press('Enter');
 
         //select primary phone 
 
@@ -139,7 +141,7 @@ export class LocationPage {
 
         //fill primary phone number
         if (data.primaryPhoneNumber) await this.primaryPhoneNumberField.fill(data.primaryPhoneNumber);
-        await this.page.waitForTimeout(2000);   
+        await this.page.waitForTimeout(2000);
 
 
         //fill primary email
@@ -159,14 +161,14 @@ export class LocationPage {
 
         //select capacity type
         if (data.capacityType === 'Flexible') {
-            await this.flexibleRadioButton.click(); 
+            await this.flexibleRadioButton.click();
             await this.page.waitForTimeout(2000);
             if (data.cumulativeCapacity) await this.cumulativeCapacityField.fill(data.cumulativeCapacity);
             await this.page.waitForTimeout(2000);
         }
 
         //click on add class button
-        
+
         await this.addClassButton.click();
         await this.page.waitForTimeout(2000);
 

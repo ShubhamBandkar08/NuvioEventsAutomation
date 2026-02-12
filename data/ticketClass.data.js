@@ -1,6 +1,6 @@
 export const ticketClassData = {
 
-    ticketClassName: 'Platinum',
+    ticketClassName: 'Platinum1',
     ticketClassDescription: 'VIP Access Ticket Class',
 
 }

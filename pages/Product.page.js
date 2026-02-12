@@ -1,5 +1,6 @@
 import { time } from "console";
 import { timeSlotData } from "../data/timeSlot.data";
+import { productData } from "../data/product.data";
 
 
 export class ProductPage {
@@ -8,13 +9,13 @@ export class ProductPage {
         this.productsLink = this.page.getByRole('link', { name: 'Products' });
         this.seachBoxField = this.page.getByRole('textbox', { name: 'Search Products' });
         this.addNewButton = this.page.getByRole('button', { name: 'Add New' });
-        this.ClickOnBUDroDown = this.page.getByRole('combobox', { name: 'Business Unit *' });
+        this.ClickOnBUDroDown = this.page.getByRole('textbox', { name: 'Select business unit' });
         this.locationDropdown = this.page.getByLabel('Location', { exact: true });
         this.productNameField = this.page.getByRole('textbox', { name: 'Product Name *' });
         this.shortDescriptionField = this.page.getByRole('textbox', { name: 'Short Description' });
         this.productDescriptionField = this.page.getByLabel('Description', { exact: true });
-        this.BasePriceField = this.page.getByRole('combobox', { name: 'Base Price Card *' });
-        this.SelectStatus = this.page.getByRole('combobox').filter({ hasText: 'Draft' });
+        this.BasePriceField = this.page.getByRole('textbox', { name: 'Select base price card' });
+        this.SelectStatus = this.page.getByRole('textbox', { name: 'Select status' });
         this.TaxInclusiveToggle = this.page.getByRole('switch');
         this.clickOnAddons = this.page.locator('span').filter({ hasText: 'Addons' }).first();
         this.addonsSearch = this.page.getByRole('textbox', { name: 'Search addons...' });
@@ -26,8 +27,8 @@ export class ProductPage {
 
         //Sales Channel Price Cards
 
-        this.salesChanneldropDown = this.page.getByRole('combobox').filter({ hasText: 'Select sales channel' });
-        this.priceDropDown = this.page.getByRole('combobox', { name: 'Select price card' });
+        this.salesChanneldropDown = this.page.getByRole('textbox', { name: 'Select sales channel' });
+        this.priceDropDown = this.page.getByRole('textbox', { name: 'Select price card' });
         this.ClickAddButton = this.page.getByText('Add', { exact: true });
         // create button
 
@@ -35,6 +36,8 @@ export class ProductPage {
     }
 
     async openProductPage() {
+        // await this.page.getByRole('button', { name: 'Product Catalogue' }).click();
+        await this.page.waitForTimeout(2000);
         await this.productsLink.click();
         await this.page.waitForTimeout(2000);
     }
@@ -43,6 +46,12 @@ export class ProductPage {
         await this.seachBoxField.fill(productName);
         await this.page.waitForTimeout(1500);
         return (await this.page.locator(`text="${productName}"`).count()) > 0;
+    }
+
+
+    async searchProduct(productName) {
+        await this.seachBoxField.fill(productName);
+        await this.page.waitForTimeout(1500);
     }
 
     async createProduct(data) {
@@ -70,10 +79,10 @@ export class ProductPage {
         await this.page.waitForTimeout(2000);
         await this.page.getByRole('option', { name: data.ProductBusinessUnit, exact: true }).click();
         await this.page.waitForTimeout(2000);
-        await this.locationDropdown.click();
-        await this.page.waitForTimeout(2000);
-        await this.page.getByRole('option', { name: data.ProductLocation, exact: true }).click();
-        await this.page.waitForTimeout(2000);
+        // await this.locationDropdown.click();
+        // await this.page.waitForTimeout(2000);
+        // await this.page.getByRole('option', { name: data.ProductLocation, exact: true }).click();
+        // await this.page.waitForTimeout(2000);
         await this.BasePriceField.click();
         await this.page.waitForTimeout(2000);
         await this.page.getByRole('option', { name: data.ProductPriceCard, exact: true }).click();
@@ -106,5 +115,6 @@ export class ProductPage {
         // await this.page.getByRole('option', { name: data.SalesChannelPriceCard }).click();
         await this.ClickAddButton.click();
         await this.clickOnCreateButton.click();
+
     }
 }

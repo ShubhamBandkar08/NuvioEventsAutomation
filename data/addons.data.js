@@ -1,12 +1,14 @@
 export const addonsData = {
-  addonName: "Standard Addon 3",
-  addonDescription: "Test addon 2",
-  addonPrice: "100",
+  addonName: "DUAZ Addon",
+  addonDescription: "DUAZ Addon Description",
+  addonPrice: "30",
 
-  validFromMonthYear: "January 2026",
+  validFromMonth: "Feb",
+  validFromYear: "2026",
   validFromDate: "15",
 
-  validToMonthYear: "January 2026",
+  validToMonth: "Feb",
+  validToYear: "2026",
   validToDate: "16",
 
   startTime: "11:00",

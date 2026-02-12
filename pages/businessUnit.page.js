@@ -1,3 +1,5 @@
+import { businessUnitData } from "../data/businessUnit.data";
+
 export class BusinessUnitPage {
     constructor(page) {
         this.page = page;
@@ -10,18 +12,29 @@ export class BusinessUnitPage {
         this.NameField = page.getByLabel('Name *');
         this.CodeField = page.getByRole('textbox', { name: 'Code *' });
         this.SaveButton = page.getByRole('button', { name: 'Save' });
-        this.countryField = page.getByRole('combobox').filter({ hasText: 'Select a country' });
+        this.countryField = page.getByRole('textbox', { name: 'Select a country' });
         this.countrySearchbox = page.getByPlaceholder('Search countries...');
-        this.cityfield = page.getByRole('combobox').filter({ hasText: 'Select a city' });
+        this.cityfield = page.getByRole('textbox', { name: 'Select a city' });
         this.citySearchbox = page.getByPlaceholder('Search cities...');
         // Select time zone
-        this.timeZonefiled = page.getByRole('combobox').filter({ hasText: 'Select a timezone' });
+        this.timeZonefiled = page.getByRole('textbox', { name: 'Select a timezone' });
         this.timeZoneSearchbox = page.getByPlaceholder('Search timezone...');
-        this.taxTypeField = page.getByRole('combobox').filter({ hasText: 'Select tax types' });
-        this.taxTypeSearchbox = page.getByPlaceholder('Search tax types...');
+        this.taxTypeField = page.getByRole('textbox', { name: 'Select tax types...' });
+        this.taxTypeSearchbox = page.getByRole('textbox', { name: 'Select tax types...' });
+
+
+        this.registrationNumberField = page.getByRole('textbox', { name: 'Registration Number' });
         this.rolesCheckbox = page.locator("[role$='checkbox']");
         this.flexibleRadionButton = page.getByRole('radio', { name: 'Flexible' });
         this.cumulativeCapacityField = page.getByRole('textbox', { name: 'Cumulative Capacity *' });
+        // select role 
+        this.roleField = page.getByRole('textbox', { name: 'Select roles' });
+        this.selectRole = page.getByRole('option', { name: `${businessUnitData.role}` });
+
+        //select ticket class
+        this.ticketClassField = page.getByRole('textbox', { name: 'Select class' });
+        this.selectTicketClass = page.getByRole('option', { name: `${businessUnitData.ticketClass}` });
+
 
         this.ticketclassbutton = page.getByRole('button', { name: 'Add Class' });
         this.activeInactiveToggle = page.getByRole('switch').nth(1);
@@ -33,20 +46,13 @@ export class BusinessUnitPage {
 
     }
     async openBusinessUnitPage() {
-   //   await this.EntityManagementButton.click();
+        //   await this.EntityManagementButton.click();
         await this.page.waitForTimeout(2000);
         await this.BusinessUnitLink.click();
     }
 
     async isBusinessUnitExists(name, code = null) {
-        // Search by code (unique identifier) if provided
-        if (code) {
-            await this.SearchField.fill(code);
-            await this.page.waitForTimeout(5000);
-            return (await this.page.locator(`text=/^${code}$/`).count()) > 0;
-        }
-        
-        // Otherwise search by name
+        // Search by name for validation
         await this.SearchField.fill(name);
         await this.page.waitForTimeout(5000);
         return (await this.page.locator(`text=/^${name}$/`).count()) > 0;
@@ -80,7 +86,7 @@ export class BusinessUnitPage {
         await this.page.waitForTimeout(2000);
         await this.page.keyboard.press('Enter');
 
-          //select time zone
+        //select time zone
 
         await this.timeZonefiled.click();
         await this.page.waitForTimeout(2000);
@@ -90,17 +96,30 @@ export class BusinessUnitPage {
 
         //select tax type 
         await this.taxTypeField.click();
-        await this.page.waitForTimeout(2000);
-        if (data.taxType) await this.taxTypeSearchbox.fill(data.taxType);
+        await this.page.waitForTimeout(4000);
+        await this.taxTypeSearchbox.fill(`${data.taxType}`);
         await this.page.waitForTimeout(2000);
         await this.page.keyboard.press('Enter');
 
         //  check all roles
 
-        const rolesCount = await this.rolesCheckbox.count();
-        for (let i = 0; i < rolesCount; i++) {
-            await this.rolesCheckbox.nth(i).check();
-        }
+        // const rolesCount = await this.rolesCheckbox.count();
+        // for (let i = 0; i < rolesCount; i++) {
+        //     await this.rolesCheckbox.nth(i).check();
+        // }
+
+        // enter registration number
+        if (data.registrationNumber) await this.registrationNumberField.fill(data.registrationNumber);
+        await this.page.waitForTimeout(2000);
+
+        // select role 
+        await this.roleField.click();
+        await this.page.waitForTimeout(3000);
+        await this.selectRole.click();
+        await this.page.waitForTimeout(3000);
+
+
+
 
         //Select capacity management 
 
@@ -113,6 +132,12 @@ export class BusinessUnitPage {
         // click on add class button
         await this.ticketclassbutton.click();
         await this.page.waitForTimeout(2000);
+
+        //select ticket class
+        await this.ticketClassField.click();
+        await this.page.waitForTimeout(3000);
+        //  await this.selectTicketClass.click();
+        await this.page.waitForTimeout(3000);
 
         //click on active inactive toggle
         await this.activeInactiveToggle.click();
@@ -137,6 +162,5 @@ export class BusinessUnitPage {
         await editButton.click();
         await this.page.waitForTimeout(2000);
 
-        
     }
 }

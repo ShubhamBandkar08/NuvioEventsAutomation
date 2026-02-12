@@ -9,14 +9,17 @@ export class TimeSlotPage {
         this.timeSlotLink = this.page.getByRole('listitem').filter({ hasText: /^Time Slots$/ });
         this.searchTimeSlotField = this.page.getByRole('textbox', { name: 'Search Time Slot Ranges' });
         this.addNewTimeSlotButton = this.page.getByRole('button', { name: 'Add New' });
-        this.startTimeHourField = this.page.getByRole('combobox').nth(1);
-        this.startTimeMinuteField = this.page.getByRole('combobox').nth(2);
-        this.endTimeHourField = this.page.getByRole('combobox').nth(3);
-        this.endTimeMinuteField = this.page.getByRole('combobox').nth(4);
+        this.startTimeField = this.page.getByRole('button', { name: 'Start Time *' });
+        this.clickOnStartTimeHHfield = this.page.getByRole('combobox').filter({ hasText: 'HH' });
+        this.startTimeMinuteField = this.page.getByRole('combobox').filter({ hasText: '00' });
+        this.endTimeField = this.page.getByRole('button', { name: 'End Time *' });
+
+        this.endTimeHourField = this.page.getByRole('combobox').filter({ hasText: 'HH' });
+        this.endTimeMinuteField = this.page.getByRole('combobox').filter({ hasText: '00' });
         this.addDistrubutionButton = this.page.getByRole('button', { name: 'Add', exact: true });
-        this.businessUnitField = this.page.getByRole('combobox').filter({ hasText: 'Select unit' });    
+        this.businessUnitField = this.page.getByRole('textbox', { name: 'Select unit' });
         this.locationField = this.page.getByRole('combobox').filter({ hasText: 'Select location' });
-        this.createTimeSlotButton = this.page.getByRole('button', { name: 'Create' });  
+        this.createTimeSlotButton = this.page.getByRole('button', { name: 'Create' });
 
     }
 
@@ -56,11 +59,11 @@ export class TimeSlotPage {
         return exists;
     }
 
-   
+
 
     async isTimeSlotPresentInTable(timeSlotData) {
         const rows = this.page.locator('tbody tr');
-        
+
         if (await rows.count() === 0) {
             console.log('No rows found in table');
             return false;
@@ -76,22 +79,22 @@ export class TimeSlotPage {
         for (let i = 0; i < count; i++) {
             const row = rows.nth(i);
             const cells = await row.locator('td').count();
-            
+
             let rowData = [];
             for (let j = 0; j < cells; j++) {
                 const cellText = await row.locator('td').nth(j).innerText();
                 rowData.push(cellText.trim());
             }
-            
+
             console.log(`Row ${i}: ${rowData.join(' | ')}`);
-            
+
             // Check if start time and end time are in the row
             if (rowData.join(' ').includes(startTime) && rowData.join(' ').includes(endTime)) {
                 console.log(`Found matching time slot at row ${i}`);
                 return true;
             }
         }
-        
+
         console.log('Time slot not found in table');
         return false;
     }
@@ -100,39 +103,46 @@ export class TimeSlotPage {
 
         await this.addNewTimeSlotButton.click();
         await this.page.waitForTimeout(3000);
-      
-        await this.startTimeHourField.click();
-        await this.page.waitForTimeout(1000);
+
+        await this.startTimeField.click();
+        await this.page.waitForTimeout(3000);
+
+
+        await this.clickOnStartTimeHHfield.click();
+        await this.page.waitForTimeout(4000);
         await this.page.getByRole('option', { name: timeSlotData.startTime.hh }).click();
-        await this.page.waitForTimeout(1000);
-        
+        await this.page.waitForTimeout(4000);
+
         await this.startTimeMinuteField.click();
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(4000);
         await this.page.getByRole('option', { name: timeSlotData.startTime.mm }).click();
-        await this.page.waitForTimeout(1000);
-        
+        await this.page.waitForTimeout(4000);
+
+
+        await this.endTimeField.click();
+        await this.page.waitForTimeout(4000);
         await this.endTimeHourField.click();
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(4000);
         await this.page.getByRole('option', { name: timeSlotData.endTime.hh }).click();
-        await this.page.waitForTimeout(1000);
-        
+        await this.page.waitForTimeout(4000);
+
         await this.endTimeMinuteField.click();
         await this.page.waitForTimeout(1000);
         await this.page.getByRole('option', { name: timeSlotData.endTime.mm }).click();
         await this.page.waitForTimeout(3000);
-        
+
         await this.addDistrubutionButton.click();
         await this.page.waitForTimeout(3000);
-        
+
         await this.businessUnitField.click();
         await this.page.waitForTimeout(1000);
         await this.page.getByRole('option', { name: businessUnitData.name, exact: true }).click();
-     
+
         await this.page.waitForTimeout(3000);
-        await this.locationField.click();
-        await this.page.waitForTimeout(2000);
-        await this.page.getByRole('option', { name: locationData.locationName, exact: true }).click();
-        await this.page.waitForTimeout(3000);
+        // await this.locationField.click();
+        // await this.page.waitForTimeout(2000);
+        // await this.page.getByRole('option', { name: locationData.locationName, exact: true }).click();
+        // await this.page.waitForTimeout(3000);
         await this.createTimeSlotButton.click();
         await this.page.waitForTimeout(5000);
 

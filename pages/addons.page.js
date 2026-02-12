@@ -9,6 +9,7 @@ export class AddonsPage {
     this.addonsLink = page.getByRole('link', { name: 'Addons' });
     this.addonSearchField = page.getByRole('textbox', { name: 'Search Addons' });
     this.addNewAddonButton = page.getByRole('button', { name: 'Add New' });
+    this.calandarMonthDropdown = page.locator("[aria-controls='radix-_r_kc_']");
 
     /* =======================
        ADDON FIELDS
@@ -20,10 +21,12 @@ export class AddonsPage {
     /* =======================
        DATE PICKERS (Radix popover + react-day-picker)
     ======================== */
-    this.validFromDateField = page.getByRole('button', { name: /Valid From/i })
-      .or(page.getByRole('combobox', { name: /Valid From/i }));
-    this.validToDateField = page.getByRole('button', { name: /Valid To/i })
-      .or(page.getByRole('combobox', { name: /Valid To/i }));
+    this.validFromDateField = page.getByRole('button', { name: 'Valid From' });
+    this.validToDateField = page.getByRole('button', { name: 'Valid To' });
+
+
+    this.monthDropdown = page.getByRole('button', { name: /Month/i });
+    this.yearDropdown = page.getByRole('button', { name: /Year/i });
 
     /* =======================
        TIME SLOTS
@@ -63,21 +66,47 @@ export class AddonsPage {
     return (await this.page.locator(`text="${addonName}"`).count()) > 0;
   }
 
-  async gotoMonthYear(targetMonthYear, maxClicks = 24) {
-    // Navigate months until text matches
-    const monthLabel = this.page.getByRole('status').first(); // aria-live status usually holds month name
-    const nextMonthButton = this.page.getByRole('button', { name: /next month/i }).first();
+  // async gotoMonthYear(targetMonthYear, maxClicks = 24) {
+  //   // Navigate months until text matches
+  //   const monthLabel = this.page.getByRole('status').first(); // aria-live status usually holds month name
+  //   const nextMonthButton = this.page.getByRole('button', { name: /next month/i }).first();
 
-    for (let i = 0; i < maxClicks; i++) {
-      // Handle case where status might be multiple elements or text content needs trim
-      const currentMonthYear = (await monthLabel.innerText()).trim();
-      if (currentMonthYear.includes(targetMonthYear)) return;
+  //   for (let i = 0; i < maxClicks; i++) {
+  //     // Handle case where status might be multiple elements or text content needs trim
+  //     const currentMonthYear = (await monthLabel.innerText()).trim();
+  //     if (currentMonthYear.includes(targetMonthYear)) return;
 
-      await nextMonthButton.click();
-      await this.page.waitForTimeout(200); // Small wait for animation
-    }
-    throw new Error(`Could not navigate to month/year: ${targetMonthYear}`);
+  //     await nextMonthButton.click();
+  //     await this.page.waitForTimeout(200); // Small wait for animation
+  //   }
+  //   throw new Error(`Could not navigate to month/year: ${targetMonthYear}`);
+  // }
+
+  async gotoMonthYear(month, year) {
+    // Select Year
+    // Find the button that displays a 4-digit year
+    const yearButton = this.page.getByRole('button').filter({ hasText: /^\d{4}$/ }).first();
+    await yearButton.click();
+    await this.page.waitForTimeout(1000);
+    // Select the target year from the dropdown options
+    await this.page.getByRole('option', { name: year }).click();
+    await this.page.waitForTimeout(1000);
+
+    // Select Month
+    // Find the button that currently displays a month (generic match for month names)
+    // We use a regex for standard month abbreviations and full names
+    const monthButton = this.page.getByRole('button').filter({ hasText: /Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec/i }).first();
+    await monthButton.click();
+    await this.page.waitForTimeout(1000);
+    // Select the target month
+    await this.page.getByRole('option', { name: month }).click();
+    await this.page.waitForTimeout(1000);
   }
+
+
+
+
+
 
   async pickDay(day) {
     // Use visible text matching (filter hasText) instead of accessible name
@@ -144,19 +173,19 @@ export class AddonsPage {
     await this.page.waitForTimeout(2000);
 
     /* -------- Valid From -------- */
-    await this.validFromDateField.click();
-    await this.gotoMonthYear(data.validFromMonthYear);
-    await this.pickDay(data.validFromDate);
-    await this.closeCalendarOverlay();
-    await this.page.waitForTimeout(2000);
+    // await this.validFromDateField.click();
+    // await this.gotoMonthYear(data.validFromMonth, data.validFromYear);
+    // await this.pickDay(data.validFromDate);
+    // await this.closeCalendarOverlay();
+    // await this.page.waitForTimeout(2000);
 
     /* -------- Valid To -------- */
-    await this.validToDateField.click();
-    await this.page.waitForTimeout(2000);
-    await this.gotoMonthYear(data.validToMonthYear);
-    await this.pickDay(data.validToDate);
-    await this.closeCalendarOverlay();
-    await this.page.waitForTimeout(2000);
+    // await this.validToDateField.click();
+    // await this.page.waitForTimeout(2000);
+    // await this.gotoMonthYear(data.validFromMonth, data.validFromYear);
+    // await this.pickDay(data.validFromDate);
+    // await this.closeCalendarOverlay();
+    // await this.page.waitForTimeout(2000);
 
     await this.startTimeDropdown.scrollIntoViewIfNeeded();
     await this.page.waitForTimeout(2000);

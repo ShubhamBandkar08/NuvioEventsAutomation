@@ -5,11 +5,11 @@ import { businessUnitData } from './businessUnit.data.js';
 export const timeSlotData = {
   startTime: {
     hh: '11',
-    mm: '00',
+    mm: '01',
   },
   endTime: {
     hh: '15',
-    mm: '00',
+    mm: '01',
   },
   businessUnit: businessUnitData.name,
   location: locationData.locationName
